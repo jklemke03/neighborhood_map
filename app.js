@@ -87,7 +87,7 @@ function initMap() {
           mapTypeControl: false
         });
 	
-	viewModel();
+	ko.applyBindings(viewModel);
 	
 }
 	
@@ -97,14 +97,14 @@ var viewModel = function() {
 	var bounds = new google.maps.LatLngBounds();
 		
 	locations.forEach(function(location){
-		marker = new locationSet(location);
+		var marker = new locationSet(location);
 		markers.push(marker);
 	
 	});
 		
 	var largeInfowindow = new google.maps.InfoWindow();
 	
-	 function showListings() {
+	 function showListings(marker) {
         var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
           marker.setMap(map);
