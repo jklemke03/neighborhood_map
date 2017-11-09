@@ -58,6 +58,7 @@ var locationMarkers = function (location){
 		self.street = "";
 		self.city = "";
 		self.phone = "";
+		self.showLocation = ko.observable(true);
 		
 		// Foursquare API Link to call.
         var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + self.lat() + ',' + self.lng() + '&client_id=WSUWXMMHAVDGT3ERSHGIFBVZ1HIM0LUC2ZSNWH4NISHAHTRO&client_secret=ZYS3WWQG2ZP2DHRTIDTPTXZW2TSEOZWWHR3ANRKJQCJGQV5C' + '&v=20171108' + '&query=' + self.name();
@@ -144,7 +145,7 @@ var viewModel = function() {
 	
 	});
 	locationSearch.query.subscribe(locationSearch.search);
-    ko.applyBindings(locationSearch);
+    
 
 };
 	
@@ -153,11 +154,11 @@ var locationSearch = {
   query: ko.observable(''),
 
   search: function(value) {
-    markers.removeAll();
-
+	showLocation(false);
     if (value == '') return;
 
     for (var location in markers) {
+	  console.log(markers);
       if (markers[location].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
 			markers.push(markers[location]);
 			markers[location].setVisible(true);
@@ -168,11 +169,7 @@ var locationSearch = {
   }
 };
 
-
-	 
-	 
-
 function appCall(){
-	ko.applyBindings(new viewModel());
-	
+	viewModel();
+	ko.applyBindings(locationSearch);
 }
