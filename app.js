@@ -162,7 +162,7 @@ var locationSearch = {
 			markers.push(markers[location]);
 			markers[location].setVisible(true);
       } else {
-		  this.markers[location].setVisible(false);
+		  markers[location].setVisible(false);
 	  }
     }
   }
