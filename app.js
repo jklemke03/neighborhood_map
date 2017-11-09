@@ -103,7 +103,7 @@ var viewModel = function() {
 	});
 		
 	var largeInfowindow = new google.maps.InfoWindow();
-	}
+};
 
 function showListings(marker) {
       var bounds = new google.maps.LatLngBounds();
