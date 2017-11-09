@@ -73,7 +73,7 @@ var locationSet = function (location){
        
         });
 		
-		showListings(this.marker);
+		viewModelshowListings(this.marker);
 
 };
 	
@@ -103,16 +103,15 @@ var viewModel = function() {
 	});
 		
 	var largeInfowindow = new google.maps.InfoWindow();
-	
-	 function showListings(marker) {
-        var bounds = new google.maps.LatLngBounds();
+	}
+
+function showListings(marker) {
+      var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
           marker.setMap(map);
           bounds.extend(marker.position);
-        }
-        map.fitBounds(bounds);
-};
-
+          map.fitBounds(bounds);
+}
 
 /*
       // This function populates the infowindow when the marker is clicked. We'll only allow
