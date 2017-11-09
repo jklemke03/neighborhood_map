@@ -87,6 +87,8 @@ function initMap() {
           mapTypeControl: false
         });
 	
+	viewModel();
+	
 }
 	
 	  
@@ -96,7 +98,7 @@ var viewModel = function() {
 		
 	locations.forEach(function(location){
 		marker = new locationSet(location);
-		this.markers.push(marker);
+		markers.push(marker);
 	
 	});
 		
