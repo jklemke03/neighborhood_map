@@ -158,12 +158,12 @@ var locationSearch = {
     if (value == '') return;
 
     for (var location in markers()) {
-	  console.log(markers);
       if (markers()[location].name().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-			markers().push(markers()[location]);
 			markers()[location].showLocation(true);
+			markers()[location].marker.setVisible(true);
       } else {
 		  markers()[location].showLocation(false);
+		  markers()[location].marker.setVisible(false);
 	  }
     }
   }
