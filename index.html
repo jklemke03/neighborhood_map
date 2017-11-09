@@ -72,23 +72,27 @@
   </head>
   <body>
     <div class="container">
-      <div class="options-box">
-        <h1>Find Your New NYC Home</h1>
-        <div>
-          <hr>
-        </div>
-        <hr>
-        <div>
-          <input id="zoom-to-area-text" type="text" placeholder="Enter your favorite area!">
-          <input id="zoom-to-area" type="button" value="Zoom">
-        </div>
-      </div>
+      <h1>Find Your Perfect Coffee Shop</h1>
+      <hr>
+	  <form>
+		<input id="search" type="search" name="search" placeholder="Need Caffeine?" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" />
+	  </form>
+		
+	  <table data-bind="visible: markers().length > 0">
+		<thead><tr><th>Name</th></tr></thead>
+		<tbody data-bind="foreach: locations">
+		<tr>
+			<td data-bind="text: name"></td>
+		</tr>    
+		</tbody>
+		</div>
       <div id="map"></div>
     </div>
 
     <script src="http://knockoutjs.com/downloads/knockout-3.0.0.debug.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 	<script type='text/javascript' src='./app.js'></script>
-	   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCY11uhKZ04Ksv9jXWotH0fBQQrDyypTn8&callback=initMap"
+	   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCY11uhKZ04Ksv9jXWotH0fBQQrDyypTn8&callback=appCall"
     async defer></script>
 	
 
