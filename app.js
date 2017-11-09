@@ -154,16 +154,16 @@ var locationSearch = {
   query: ko.observable(''),
 
   search: function(value) {
-	showLocation(false);
+
     if (value == '') return;
 
-    for (var location in markers) {
+    for (var location in markers()) {
 	  console.log(markers);
-      if (markers[location].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-			markers.push(markers[location]);
-			markers[location].setVisible(true);
+      if (markers()[location].name().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+			markers().push(markers()[location]);
+			markers()[location].showLocation(true);
       } else {
-		  markers[location].setVisible(false);
+		  markers()[location].showLocation(false);
 	  }
     }
   }
