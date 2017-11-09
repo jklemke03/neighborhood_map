@@ -58,7 +58,7 @@ var locationSet = function (location){
 		var marker = new google.maps.Marker({
             position: this.area(),
             title: this.name(),
-            animation: google.maps.Animation.DROP,
+            animation: google.maps.Animation.DROP
           });
 		
 		this.marker.addListener('click', function() {
@@ -73,7 +73,7 @@ var locationSet = function (location){
        
         });
 		
-		viewModelshowListings(this.marker);
+		showListings(this.marker);
 
 };
 	
