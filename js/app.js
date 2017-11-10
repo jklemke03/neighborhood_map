@@ -188,7 +188,7 @@ var locationSearch = {
 		}
 	}
 
-    for (location in markers()) {
+    for (var location in markers()) {
       if (markers()[location].name().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
 			markers()[location].showLocation(true);
 			markers()[location].marker.setVisible(true);
