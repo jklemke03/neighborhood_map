@@ -182,9 +182,9 @@ var locationSearch = {
   search: function(value) {
 
     if (value === '') {
-		for (var location in markers()){
-			markers()[location].showLocation(true);
-			markers()[location].marker.setVisible(true);
+		for (var i in markers()){
+			markers()[i].showLocation(true);
+			markers()[i].marker.setVisible(true);
 		}
 	}
 
@@ -239,4 +239,4 @@ var toggleNav = function(){
 function appCall(){
 	viewModel();
 	ko.applyBindings(locationSearch);
-};
+}
