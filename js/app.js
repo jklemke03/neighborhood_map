@@ -12,6 +12,7 @@ var locations = [
 			  lat: 35.2798453,
 			  lng: -120.6697681
 		  }
+
 	  },
 	  {
 		  name: 'BlackHorse Espresso & Bakery',
@@ -20,6 +21,7 @@ var locations = [
 			  lat: 35.2715808,
 			  lng: -120.7000597
 		  }
+
 	  },
 	  {
 		  name: 'Kreuzberg',
@@ -60,7 +62,7 @@ var locationMarkers = function (location){
 		self.city = "";
 		self.phone = "";
 		self.showLocation = ko.observable(true);
-		
+
 		
 		// Foursquare API Link to call.
         var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + self.lat() + ',' + self.lng() + '&client_id=WSUWXMMHAVDGT3ERSHGIFBVZ1HIM0LUC2ZSNWH4NISHAHTRO&client_secret=ZYS3WWQG2ZP2DHRTIDTPTXZW2TSEOZWWHR3ANRKJQCJGQV5C' + '&v=20171108' + '&query=' + self.name();
@@ -125,8 +127,7 @@ var locationMarkers = function (location){
         '<div class="content">' + self.city + "</div>" +
         '<div class="content">' + self.phone + "</div></div>";
            self.infoWindow.setContent(self.contentString);
-		  self.infoWindow.setPosition(this.latLng);
-           self.marker.infoWindow.open(map);
+           self.marker.infoWindow.open(map, this);
 		   
 	    });
 		
@@ -168,7 +169,9 @@ var viewModel = function() {
 	});
 	
 
-	
+		
+
+    google.maps.event.trigger(map, "resize"); 
 
 	locationSearch.query.subscribe(locationSearch.search);
     
@@ -211,8 +214,12 @@ var selectLocation = function (data, event){
         '<div class="content">' + data.city + "</div>" +
         '<div class="content">' + data.phone + "</div></div>";
 	data.infoWindow.setContent(self.contentString);
-	data.infoWindow.setPosition(data.latLng);
-	data.infoWindow.open(map);
+	self.position = data.marker;
+	data.infoWindow.open(map, self.position);
+	data.marker.setAnimation(google.maps.Animation.BOUNCE);
+	setTimeout(function() {
+      		data.marker.setAnimation(null);
+     	}, 750);
 	
 };
 
@@ -227,11 +234,13 @@ var toggleNav = function(){
 	var elem = document.getElementById("map");
 	if(navActive === true) {
 		navActive = false;
-		elem.style.left = "0px";	
+		elem.style.left = "0px";
+		google.maps.event.trigger(map, "resize");
 	}
 	else{
 		navActive = true;
 		elem.style.left = "362px";
+		google.maps.event.trigger(map, "resize");
 	}	
 	
 };
