@@ -155,7 +155,7 @@ var locationSearch = {
 
   search: function(value) {
 
-    if (value == '') return;
+    if (value === '') return;
 
     for (var location in markers()) {
       if (markers()[location].name().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
