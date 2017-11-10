@@ -34,8 +34,16 @@ table {
         left: 362px;
         position: absolute;
         right: 0px;
+		top: 32px
       }
 th {
     text-align: left;
     padding: 0px 0px 10px 0px;
+}
+
+header{
+	z-index: 1;
+	background-color: #fff;
+	height:30px;
+	padding: 10px 5px 0px 0px;
 }

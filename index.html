@@ -6,21 +6,23 @@
   </head>
   <body>
     <div class="container">
-	 <div>
+		<header><button data-bind="click: toggleNav" class="btn">Menu</button></header>
+	 <div class = "side-bar">
+	 
 		<h1>Find Your Perfect Coffee Shop</h1>
-		<hr>
 		<form>
 			<input id="search" type="search" name="search" placeholder="Need Caffeine?" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" />
 		</form>
+	
 		
 		<table data-bind="visible: markers().length > 0">
 			<thead><tr><th>Name</th></tr></thead>
 			<tbody data-bind="foreach: markers()">
 			<tr>
-			<td data-bind="text: name, visible: showLocation"></td>
+			<td data-bind="text: name, visible: showLocation, click: selectLocation"></td>
 			</tr>    
 			</tbody>
-	
+	  </div>
       <div id="map"></div>
     </div>
 

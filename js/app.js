@@ -1,6 +1,7 @@
 var map;
 var markers = ko.observableArray();
-var largeInfowindow;
+var navActive = true;
+
 
 	  
 var locations = [
@@ -60,6 +61,7 @@ var locationMarkers = function (location){
 		self.phone = "";
 		self.showLocation = ko.observable(true);
 		
+		
 		// Foursquare API Link to call.
         var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll=' + self.lat() + ',' + self.lng() + '&client_id=WSUWXMMHAVDGT3ERSHGIFBVZ1HIM0LUC2ZSNWH4NISHAHTRO&client_secret=ZYS3WWQG2ZP2DHRTIDTPTXZW2TSEOZWWHR3ANRKJQCJGQV5C' + '&v=20171108' + '&query=' + self.name();
 		
@@ -71,49 +73,69 @@ var locationMarkers = function (location){
             self.URL = "";
         }
         self.street = markResult.location.formattedAddress[0] || 'Address Informaiton Not Available';
+		console.log(self.street);
         self.city = markResult.location.formattedAddress[1] || 'Address Information Not Available';
         self.phone = markResult.contact.phone || 'Phone Information Not Available';
 		}).fail(function () {
-			$('.list').html('There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.');
+			alert('There was an error with the Foursquare API call. Please refresh the page and try again to load Foursquare data.');
 		});
+		
+
+		//sets a default clear contentString
+		self.contentString = "";
+		
+      
+        // Puts the content string inside infowindow.
+        this.infoWindow = new google.maps.InfoWindow({content: self.contentString});
+		this.latLng = new google.maps.LatLng(self.lat(), self.lng());
 
 		
 		self.marker = new google.maps.Marker({
             position: self.position(),
             name: self.name(),
-            animation: google.maps.Animation.DROP
+            animation: google.maps.Animation.DROP,
+			url: self.URL,
+			street: self.city,
+			phone: self.phone,
+			infoWindow: this.infoWindow,
+			latLng: this.latLng
+			
           });
 		
+	
 		self.marker.addListener('click', function() {
 			if (this.getAnimation() !== null) {
 				this.setAnimation(null);
 			} else {
 				this.setAnimation(google.maps.Animation.BOUNCE);
 			}
+			setTimeout(function() {
+      		self.marker.setAnimation(null);
+     	}, 750);
 		});
+	
 		
-		//sets a default clear contentString
-		self.contentString = "";
-        // Puts the content string inside infowindow.
-        this.infoWindow = new google.maps.InfoWindow({content: self.contentString});
+
 
        // When marker is clicked on open up infowindow designated to the marker with it's information.
         self.marker.addListener('click', function(){
-           self.contentString = '<div class="info-window-content"><div class="title"><b>' + self.name() + "</b></div>" +
+		self.contentString = '<div class="info-window-content"><div class="title"><b>' + self.name() + "</b></div>" +
         '<div class="content"><a href="' + self.URL + '">' + self.URL + "</a></div>" +
         '<div class="content">' + self.street + "</div>" +
         '<div class="content">' + self.city + "</div>" +
         '<div class="content">' + self.phone + "</div></div>";
            self.infoWindow.setContent(self.contentString);
-           self.infoWindow.open(map, this);
+		  self.infoWindow.setPosition(this.latLng);
+           self.marker.infoWindow.open(map);
 		   
 	    });
 		
 		self.infoWindow.addListener('closeclick', function() {
-            self.infoWindow = null;
+            self.infoWindow.close();
          });
 
 		self.marker.setMap(map);
+		
 
 };
 
@@ -144,6 +166,10 @@ var viewModel = function() {
 		markers.push(marker);
 	
 	});
+	
+
+	
+
 	locationSearch.query.subscribe(locationSearch.search);
     
 
@@ -155,7 +181,12 @@ var locationSearch = {
 
   search: function(value) {
 
-    if (value === '') return;
+    if (value === '') {
+		for (var location in markers()){
+			markers()[location].showLocation(true);
+			markers()[location].marker.setVisible(true);
+		}
+	}
 
     for (var location in markers()) {
       if (markers()[location].name().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
@@ -169,11 +200,42 @@ var locationSearch = {
   }
 };
 
+var selectLocation = function (data, event){
+	self = this;
+	console.log(data.latLng);
+	console.log(data);
+	console.log(data.infoWindow);
+	self.contentString = '<div class="info-window-content"><div class="title"><b>' + data.marker.name + "</b></div>" +
+        '<div class="content"><a href="' + data.URL + '">' + data.URL + "</a></div>" +
+        '<div class="content">' + data.street + "</div>" +
+        '<div class="content">' + data.city + "</div>" +
+        '<div class="content">' + data.phone + "</div></div>";
+	data.infoWindow.setContent(self.contentString);
+	data.infoWindow.setPosition(data.latLng);
+	data.infoWindow.open(map);
+	
+};
+
+
 googleError = function googleError() {
     alert(
         'Google Maps did not load. Please refresh the page.'
     );
 };
+
+var toggleNav = function(){
+	var elem = document.getElementById("map");
+	if(navActive === true) {
+		navActive = false;
+		elem.style.left = "0px";	
+	}
+	else{
+		navActive = true;
+		elem.style.left = "362px";
+	}
+	
+	
+}
 
 function appCall(){
 	viewModel();
