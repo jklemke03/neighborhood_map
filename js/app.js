@@ -188,7 +188,7 @@ var locationSearch = {
 		}
 	}
 
-    for (var location in markers()) {
+    for (location in markers()) {
       if (markers()[location].name().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
 			markers()[location].showLocation(true);
 			markers()[location].marker.setVisible(true);
@@ -232,12 +232,11 @@ var toggleNav = function(){
 	else{
 		navActive = true;
 		elem.style.left = "362px";
-	}
+	}	
 	
-	
-}
+};
 
 function appCall(){
 	viewModel();
 	ko.applyBindings(locationSearch);
-}
+};
