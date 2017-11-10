@@ -169,6 +169,12 @@ var locationSearch = {
   }
 };
 
+googleError = function googleError() {
+    alert(
+        'Google Maps did not load. Please refresh the page.'
+    );
+};
+
 function appCall(){
 	viewModel();
 	ko.applyBindings(locationSearch);
